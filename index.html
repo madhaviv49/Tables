@@ -9,6 +9,13 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        #main-content {
+            flex: 2;
+            text-align: center;
         }
         #equation {
             font-size: 64px;
@@ -25,36 +32,53 @@
             margin-top: 20px;
             cursor: pointer;
         }
+        #sidebar {
+            flex: 1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: left;
+            font-size: 24px;
+            height: 100vh;
+        }
     </style>
 </head>
 <body>
-    <h2>Multiplication Quiz</h2>
-    <p id="equation">Click "Generate"</p>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <button onclick="generateQuestion()">Generate</button>
+    <div id="main-content">
+        <h2>Multiplication Quiz</h2>
+        <p id="equation">Click "Generate"</p>
+        <br><br><br><br><br><br><br><br><br>
+        <button onclick="generateQuestion()">Generate</button>
+    </div>
+    
+    <div id="sidebar">
+        <h2>Indian Constitution Article</h2>
+        <p id="article">Article will appear here</p>
+    </div>
 
     <script>
         let correctAnswer;
+        let articles = {};
+
+        fetch('articles.json')
+            .then(response => response.json())
+            .then(data => {
+                articles = data;
+            })
+            .catch(error => console.error('Error loading articles:', error));
 
         function generateQuestion() {
             let A = Math.floor(Math.random() * 20) + 1;
             let B = Math.floor(Math.random() * 20) + 1;
             correctAnswer = A * B;
             document.getElementById("equation").innerHTML = `${A} x ${B} = <span class="answer" onclick="showAnswer()">?</span>`;
+            
+            document.getElementById("article").textContent = articles[correctAnswer] || "No specific article found for this number.";
         }
 
         function showAnswer() {
             document.querySelector(".answer").textContent = correctAnswer;
         }
-        
+
         document.addEventListener("keydown", function(event) {
             if (event.code === "Space") {
                 generateQuestion();
