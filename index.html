@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #equation {
+            font-size: 64px;
+            margin-top: 20px;
+        }
+        .answer {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 64px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Multiplication Quiz</h2>
+    <p id="equation">Click "Generate" for a new question</p>
+    <button onclick="generateQuestion()">Generate</button>
+
+    <script>
+        let correctAnswer;
+
+        function generateQuestion() {
+            let A = Math.floor(Math.random() * 20) + 1;
+            let B = Math.floor(Math.random() * 20) + 1;
+            correctAnswer = A * B;
+            document.getElementById("equation").innerHTML = `${A} x ${B} = <span class="answer" onclick="showAnswer()">?</span>`;
+        }
+
+        function showAnswer() {
+            document.querySelector(".answer").textContent = correctAnswer;
+        }
+        
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space") {
+                generateQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
