@@ -5,59 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplication Quiz</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
         }
+
         #main-content {
-            text-align: center;
+            background-color: #ffffff;
+            border: 2px solid #00acc1;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 172, 193, 0.2);
+            padding: 20px;
             width: 90%;
             max-width: 600px;
+            text-align: center;
+            margin: 20px;
         }
+
+        #main-content h2 {
+            font-size: 6vw;
+            max-font-size: 36px;
+        }
+
         #equation {
-            font-size: 48px;
+            font-size: 8vw;
+            max-font-size: 48px;
             margin-top: 20px;
+            color: #00796b;
         }
+
         .answer {
             cursor: pointer;
-            color: blue;
+            color: #0288d1;
             text-decoration: underline;
         }
+
         button {
-            padding: 10px 20px;
-            font-size: 24px;
+            padding: 12px 24px;
+            font-size: 5vw;
+            max-font-size: 24px;
             margin-top: 20px;
             cursor: pointer;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
+
+        button:hover {
+            background-color: #0097a7;
+        }
+
         #sidebar {
-            width: 100%;
-            background-color: #f4f4f4;
+            width: 90%;
+            max-width: 600px;
+            background-color: #f1f8e9;
             padding: 20px;
             text-align: center;
-            font-size: 18px;
-            margin-top: 20px;
+            font-size: 4.5vw;
+            border: 2px solid #8bc34a;
+            border-radius: 10px;
+            margin-bottom: 30px;
         }
-        
+
+        #sidebar h2 {
+            color: #558b2f;
+            font-size: 5.5vw;
+        }
+
         @media (min-width: 768px) {
             body {
                 flex-direction: row;
                 justify-content: space-around;
                 align-items: flex-start;
+                background: linear-gradient(to right, #e0f2f1, #f1f8e9);
+                padding: 40px;
             }
-            #main-content {
-                flex: 2;
+
+            #main-content, #sidebar {
+                width: 45%;
+                max-width: none;
+                margin: 0;
             }
-            #sidebar {
-                flex: 1;
-                height: 100vh;
-                text-align: left;
+
+            #main-content h2,
+            #sidebar h2 {
+                font-size: 32px;
+            }
+
+            #equation {
+                font-size: 48px;
+            }
+
+            button {
                 font-size: 24px;
+            }
+
+            #sidebar {
+                font-size: 20px;
+                text-align: left;
             }
         }
     </style>
@@ -68,7 +126,7 @@
         <p id="equation">Click "Generate"</p>
         <button onclick="generateQuestion()">Generate</button>
     </div>
-    
+
     <div id="sidebar">
         <h2>Indian Constitution Article</h2>
         <p id="article">Article will appear here</p>
