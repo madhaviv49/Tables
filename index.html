@@ -45,18 +45,12 @@
             color: #00796b;
         }
 
-        .answer {
-            cursor: pointer;
-            color: #0288d1;
-            text-decoration: underline;
-        }
-
-        /* Original desktop button style */
-        #main-content button {
+        /* Button styles (shared for both buttons) */
+        button {
             padding: 12px 24px;
             font-size: 5vw;
             max-font-size: 24px;
-            margin-top: 20px;
+            margin: 10px 0;
             cursor: pointer;
             background-color: #00bcd4;
             color: white;
@@ -65,7 +59,7 @@
             transition: background-color 0.3s;
         }
 
-        #main-content button:hover {
+        button:hover {
             background-color: #0097a7;
         }
 
@@ -86,7 +80,7 @@
             font-size: 5.5vw;
         }
 
-        /* Bottom-fixed button container for mobile */
+        /* Mobile bottom button area */
         #mobile-button-container {
             display: none;
         }
@@ -115,7 +109,7 @@
                 font-size: 48px;
             }
 
-            #main-content button {
+            button {
                 font-size: 24px;
             }
 
@@ -125,7 +119,6 @@
             }
         }
 
-        /* Show fixed bottom button on small screens */
         @media (max-width: 767px) {
             #mobile-button-container {
                 position: fixed;
@@ -136,7 +129,9 @@
                 padding: 10px;
                 box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
                 z-index: 1000;
             }
 
@@ -145,15 +140,6 @@
                 font-size: 6vw;
                 padding: 14px;
                 max-width: 400px;
-                background-color: #00bcd4;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                transition: background-color 0.3s;
-            }
-
-            #mobile-button-container button:hover {
-                background-color: #0097a7;
             }
 
             #main-content button {
@@ -166,7 +152,9 @@
     <div id="main-content">
         <h2>Multiplication Quiz</h2>
         <p id="equation">Click "Generate"</p>
+        <!-- Desktop Buttons -->
         <button onclick="generateQuestion()">Generate</button>
+        <button onclick="showAnswer()">Reveal</button>
     </div>
 
     <div id="sidebar">
@@ -174,14 +162,16 @@
         <p id="article">Article will appear here</p>
     </div>
 
-    <!-- Fixed bottom button for mobile -->
+    <!-- Mobile bottom-fixed buttons -->
     <div id="mobile-button-container">
         <button onclick="generateQuestion()">Generate</button>
+        <button onclick="showAnswer()">Reveal</button>
     </div>
 
     <script>
         let correctAnswer;
         let articles = {};
+        let isAnswerRevealed = false;
 
         fetch('articles.json')
             .then(response => response.json())
@@ -194,13 +184,17 @@
             let A = Math.floor(Math.random() * 20) + 1;
             let B = Math.floor(Math.random() * 20) + 1;
             correctAnswer = A * B;
-            document.getElementById("equation").innerHTML = `${A} x ${B} = <span class="answer" onclick="showAnswer()">?</span>`;
-            
+            isAnswerRevealed = false;
+            document.getElementById("equation").textContent = `${A} x ${B} = ?`;
             document.getElementById("article").textContent = articles[correctAnswer] || "No specific article found for this number.";
         }
 
         function showAnswer() {
-            document.querySelector(".answer").textContent = correctAnswer;
+            if (correctAnswer !== undefined && !isAnswerRevealed) {
+                let currentText = document.getElementById("equation").textContent;
+                document.getElementById("equation").textContent = currentText.replace("?", correctAnswer);
+                isAnswerRevealed = true;
+            }
         }
 
         document.addEventListener("keydown", function(event) {
