@@ -45,7 +45,6 @@
             color: #00796b;
         }
 
-        /* Button styles (shared for both buttons) */
         button {
             padding: 12px 24px;
             font-size: 5vw;
@@ -80,7 +79,6 @@
             font-size: 5.5vw;
         }
 
-        /* Mobile bottom button area */
         #mobile-button-container {
             display: none;
         }
@@ -199,7 +197,10 @@
 
         document.addEventListener("keydown", function(event) {
             if (event.code === "Space") {
+                event.preventDefault(); // prevent page scroll
                 generateQuestion();
+            } else if (event.code === "ControlLeft") {
+                showAnswer();
             }
         });
     </script>
