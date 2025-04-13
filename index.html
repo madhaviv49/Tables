@@ -1,95 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Random Multiplication Generator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1d2b64, #f8cdda);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    .container {
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      text-align: center;
-      max-width: 400px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+        }
 
-    h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
+        #main-content {
+            background-color: #ffffff;
+            border: 2px solid #00acc1;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 172, 193, 0.2);
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin: 20px;
+        }
 
-    button {
-      padding: 12px 25px;
-      margin: 10px;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 10px;
-      background-color: #ffffff;
-      color: #1d2b64;
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
+        #main-content h2 {
+            font-size: 6vw;
+            max-font-size: 36px;
+        }
 
-    button:hover {
-      transform: scale(1.05);
-      background-color: #e0e0e0;
-    }
+        #equation {
+            font-size: 8vw;
+            max-font-size: 48px;
+            margin-top: 20px;
+            color: #00796b;
+        }
 
-    .output {
-      margin-top: 25px;
-      font-size: 1.8em;
-      font-weight: bold;
-    }
+        button {
+            padding: 12px 24px;
+            font-size: 5vw;
+            max-font-size: 24px;
+            margin: 10px 0;
+            cursor: pointer;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-    .hidden {
-      display: none;
-    }
-  </style>
+        button:hover {
+            background-color: #0097a7;
+        }
+
+        #sidebar {
+            width: 90%;
+            max-width: 600px;
+            background-color: #f1f8e9;
+            padding: 20px;
+            text-align: center;
+            font-size: 4.5vw;
+            border: 2px solid #8bc34a;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        #sidebar h2 {
+            color: #558b2f;
+            font-size: 5.5vw;
+        }
+
+        #mobile-button-container {
+            display: none;
+            
+        }
+
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start;
+                background: linear-gradient(to right, #e0f2f1, #f1f8e9);
+                padding: 40px;
+            }
+
+            #main-content, #sidebar {
+                width: 45%;
+                max-width: none;
+                margin: 0;
+            }
+
+            #main-content h2,
+            #sidebar h2 {
+                font-size: 32px;
+            }
+
+            #equation {
+                font-size: 48px;
+            }
+
+            button {
+                font-size: 24px;
+            }
+
+            #sidebar {
+                font-size: 20px;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #mobile-button-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                padding: 10px;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                z-index: 1000;
+            }
+
+            #mobile-button-container button {
+                width: 90%;
+                font-size: 10vw;
+                padding: 14px;
+                max-width: 400px;
+            }
+
+            #main-content button {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Random Multiplication</h2>
-    <p>Click to generate a multiplication question (product ≤ 15,000)</p>
-    <button onclick="generateMultiplication()">Generate Question</button>
-    <button onclick="revealAnswer()">Show Answer</button>
+    <div id="main-content">
+        <h2>Multiplication Quiz</h2>
+        <p id="equation">Click "Generate"</p>
+        <!-- Desktop Buttons -->
+        <button onclick="generateQuestion()">Generate</button>
+        <button onclick="showAnswer()">Reveal</button>
+    </div>
 
-    <div class="output" id="question">--</div>
-    <div class="output hidden" id="answer">--</div>
-  </div>
+    <div id="sidebar">
+        <h2>Indian Constitution Article</h2>
+        <p id="article">Article will appear here</p>
+    </div>
 
-  <script>
-    let currentAnswer = 0;
+    <!-- Mobile bottom-fixed buttons -->
+    <div id="mobile-button-container">
+        <button onclick="generateQuestion()">Generate</button>
+        <button onclick="showAnswer()">Reveal</button>
+    </div>
 
-    function generateMultiplication() {
-      let a, b, product;
-      do {
-        a = Math.floor(Math.random() * 200) + 1;
-        b = Math.floor(Math.random() * 200) + 1;
-        product = a * b;
-      } while (product > 15000);
+    <script>
+        let correctAnswer;
+        let articles = {};
+        let isAnswerRevealed = false;
 
-      currentAnswer = product;
-      document.getElementById("question").innerText = `${a} × ${b} = ?`;
-      const answerEl = document.getElementById("answer");
-      answerEl.innerText = `Answer: ${product}`;
-      answerEl.classList.add("hidden");
-    }
+        fetch('articles.json')
+            .then(response => response.json())
+            .then(data => {
+                articles = data;
+            })
+            .catch(error => console.error('Error loading articles:', error));
 
-    function revealAnswer() {
-      document.getElementById("answer").classList.remove("hidden");
-    }
-  </script>
+        function generateQuestion() {
+            let A = Math.floor(Math.random() * 20) + 1;
+            let B = Math.floor(Math.random() * 20) + 1;
+            correctAnswer = A * B;
+            isAnswerRevealed = false;
+            document.getElementById("equation").textContent = `${A} x ${B} = ?`;
+            document.getElementById("article").textContent = articles[correctAnswer] || "No specific article found for this number.";
+        }
+
+        function showAnswer() {
+            if (correctAnswer !== undefined && !isAnswerRevealed) {
+                let currentText = document.getElementById("equation").textContent;
+                document.getElementById("equation").textContent = currentText.replace("?", correctAnswer);
+                isAnswerRevealed = true;
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space") {
+                event.preventDefault(); // prevent page scroll
+                generateQuestion();
+            } else if (event.code === "ControlLeft") {
+                showAnswer();
+            }
+        });
+    </script>
 </body>
 </html>
